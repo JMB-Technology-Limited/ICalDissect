@@ -48,7 +48,8 @@ class RRuleTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($events));
 		$event = $events[0];
 		$this->assertEquals(1, $event->getRRuleCount());
-		$eventRRule = $event->getRrules()[0];
+		$eventRRules = $event->getRrules();
+		$eventRRule = $eventRRules[0];
 		$this->assertEquals(count(array_keys($rrule)), count(array_keys($eventRRule)));
 		foreach($rrule as $k=>$v) {
 			$this->assertEquals($v, $eventRRule[$k]);
