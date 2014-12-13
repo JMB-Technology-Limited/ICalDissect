@@ -9,7 +9,7 @@ namespace JMBTechnologyLimited\ICalDissect;
  * @copyright (c) 2014, JMB Technology Limited, http://jmbtechnology.co.uk/
  * @author James Baster <james@jarofgreen.co.uk>
  */
-class ICalParserEvent
+class ICalEvent
 {
 
 	protected $timeZone;

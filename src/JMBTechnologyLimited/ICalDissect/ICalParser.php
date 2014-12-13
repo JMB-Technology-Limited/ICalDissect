@@ -77,7 +77,7 @@ class ICalParser
 				if ($line['KEYWORD'] == 'BEGIN') {
 					$stack[] = $line['VALUE'];
 					if ($line['VALUE'] == 'VEVENT') {
-						$this->events[] = new ICalParserEvent($this->timezone->getTimeZone());
+						$this->events[] = new ICalEvent($this->timezone->getTimeZone());
 					}
 				} else if ($line['KEYWORD'] == 'END') {
 					// TODO check VALUE and last stack match
