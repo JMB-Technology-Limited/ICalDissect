@@ -17,6 +17,7 @@ class LineTest  extends \PHPUnit_Framework_TestCase {
 		return array(
 				array('IcalParserBasicImportMultiLineDescription.ical','Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Lizard'),
 				array('IcalParserBasicImportMultiLineDescription2.ical','Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Lizard:Blue'),
+				array('IcalParserBasicImportMultiLineDescription3.ical','Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Dog Cat Go Miaow Lizard:Blue abcdefgtijklmnopqrstuvwxyz abcdefgtijklmnopqrstuvwxyz 12345'),
 			);
 	}
 
