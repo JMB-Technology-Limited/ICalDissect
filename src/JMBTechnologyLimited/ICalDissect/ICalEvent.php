@@ -33,7 +33,7 @@ class ICalEvent
 
 	protected $url;
 
-	protected $ical_rrules;
+	protected $ical_rrule;
 
 	protected $exdates = array();
 
@@ -67,7 +67,7 @@ class ICalEvent
 				list($k, $v) = explode("=",$rruleBit,2);
 				$rrule[strtoupper($k)] = $v;
 			}
-			$this->ical_rrules[] = $rrule;
+			$this->ical_rrule = $rrule;
 		} else if ($keyword == "EXDATE") {
 			$this->exdates[] = new ICalExDate($value, $keywordProperties);
 		}
@@ -159,27 +159,11 @@ class ICalEvent
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
-	public function getRRules()
+	public function getRRule()
 	{
-		return $this->ical_rrules;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getRRule($position)
-	{
-		return $this->ical_rrules[$position];
-	}
-
-	/**
-	 * @return integer
-	 */
-	public function getRRuleCount()
-	{
-		return count($this->ical_rrules);
+		return $this->ical_rrule;
 	}
 
 	/**

@@ -21,8 +21,7 @@ class ExDateTest  extends \PHPUnit_Framework_TestCase {
 		/** @var $event ICalEvent */
 		$event = $events[0];
 
-		$this->assertEquals(1, $event->getRRuleCount());
-		$eventRRule = $event->getRrule(0);
+		$eventRRule = $event->getRrule();
 		$rrule = array("FREQ"=>"WEEKLY","INTERVAL"=>"2","BYDAY"=>"TH");
 		$this->assertEquals(count(array_keys($rrule)), count(array_keys($eventRRule)));
 		foreach($rrule as $k=>$v) {
