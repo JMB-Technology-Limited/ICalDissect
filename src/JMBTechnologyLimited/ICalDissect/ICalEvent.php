@@ -35,12 +35,14 @@ class ICalEvent
 
 	protected $ical_rrules;
 
+	protected $exdates = array();
+
 	public function __construct(\DateTimeZone $timeZone = null) {
 		$this->timeZoneUTC =  new \DateTimeZone('UTC');
 		$this->timeZone = $timeZone ? $timeZone : $this->timeZoneUTC;
 	} 
 	
-	public function processLine($keyword, $value) {
+	public function processLine($keyword, $value, $keywordProperties = "") {
 		if ($keyword == 'UID') {
 			$this->uid = $value;
 		} else if ($keyword == 'LOCATION') {
@@ -66,7 +68,10 @@ class ICalEvent
 				$rrule[strtoupper($k)] = $v;
 			}
 			$this->ical_rrules[] = $rrule;
+		} else if ($keyword == "EXDATE") {
+			$this->exdates[] = new ICalExDate($value, $keywordProperties);
 		}
+
 	}
 	
 	
@@ -176,6 +181,34 @@ class ICalEvent
 	{
 		return count($this->ical_rrules);
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getExDates()
+	{
+		return $this->exdates;
+	}
+
+	/**
+	 * @return ICalExDate
+	 */
+	public function getExDate($position)
+	{
+		return $this->exdates[$position];
+	}
+
+
+	/**
+	 * @return integer
+	 */
+	public function getExDatesCount()
+	{
+		return count($this->exdates);
+	}
+
+
+
 
 }
 

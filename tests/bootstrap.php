@@ -11,4 +11,5 @@
 
 require __DIR__ . '/../src/JMBTechnologyLimited/ICalDissect/ICalTimeZone.php';
 require __DIR__ . '/../src/JMBTechnologyLimited/ICalDissect/ICalEvent.php';
+require __DIR__ . '/../src/JMBTechnologyLimited/ICalDissect/ICalExDate.php';
 require __DIR__.'/../src/JMBTechnologyLimited/ICalDissect/ICalParser.php';

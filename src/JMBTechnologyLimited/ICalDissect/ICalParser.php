@@ -86,9 +86,9 @@ class ICalParser
 					$currentlyIn = $stack[count($stack)-1];
 					//print $currentlyIn." with K ".$line['KEYWORD']."\n";
 					if ($currentlyIn == 'VEVENT') {
-						$this->events[count($this->events)-1]->processLine($line['KEYWORD'],$line['VALUE']);
+						$this->events[count($this->events)-1]->processLine($line['KEYWORD'],$line['VALUE'], $line['KEYWORDOPTIONS']);
 					} elseif ($currentlyIn == 'VTIMEZONE') {
-						$this->timezone->processLine($line['KEYWORD'],$line['VALUE']);
+						$this->timezone->processLine($line['KEYWORD'],$line['VALUE'], $line['KEYWORDOPTIONS']);
 					}
 				}
 			}
