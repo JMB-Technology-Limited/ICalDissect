@@ -37,6 +37,8 @@ class ICalEvent
 
 	protected $exdates = array();
 
+	protected $misc = array();
+
 	public function __construct(\DateTimeZone $timeZone = null) {
 		$this->timeZoneUTC =  new \DateTimeZone('UTC');
 		$this->timeZone = $timeZone ? $timeZone : $this->timeZoneUTC;
@@ -70,6 +72,8 @@ class ICalEvent
 			$this->ical_rrule = $rrule;
 		} else if ($keyword == "EXDATE") {
 			$this->exdates[] = new ICalExDate($value, $keywordProperties);
+		} else {
+			$this->misc[$keyword] = $value;
 		}
 
 	}
@@ -189,6 +193,14 @@ class ICalEvent
 	public function getExDatesCount()
 	{
 		return count($this->exdates);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMisc()
+	{
+		return $this->misc;
 	}
 
 
