@@ -21,7 +21,9 @@ class RawTest  extends \PHPUnit_Framework_TestCase {
 		/** @var $event ICalEvent */
 		$event = $events[0];
 
-		$this->assertFalse(isset($event->getRaw()['OUEHUENU']));
+		$rawAll = $event->getRaw();
+		$this->assertFalse(isset($rawAll['OUEHUENU']));
+
 		$this->assertTrue(is_array($event->getRaw('OUEHUENU')));
 		$this->assertEquals(0, count($event->getRaw('OUEHUENU')));
 	}
