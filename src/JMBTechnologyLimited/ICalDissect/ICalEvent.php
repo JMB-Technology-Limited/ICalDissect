@@ -37,6 +37,8 @@ class ICalEvent
 
 	protected $exdates = array();
 
+	protected $raw = array();
+
 	public function __construct(\DateTimeZone $timeZone = null) {
 		$this->timeZoneUTC =  new \DateTimeZone('UTC');
 		$this->timeZone = $timeZone ? $timeZone : $this->timeZoneUTC;
@@ -71,7 +73,10 @@ class ICalEvent
 		} else if ($keyword == "EXDATE") {
 			$this->exdates[] = new ICalExDate($value, $keywordProperties);
 		}
-
+		if (!isset($this->raw[strtoupper($keyword)]))  {
+			$this->raw[strtoupper($keyword)] = array();
+		}
+		$this->raw[strtoupper($keyword)][] = $value;
 	}
 	
 	
@@ -189,6 +194,31 @@ class ICalEvent
 	public function getExDatesCount()
 	{
 		return count($this->exdates);
+	}
+
+	/**
+	 *
+	 * Returns raw line data for this event.
+	 *
+	 * @parameter $keyword pass keyword you want, or null to get all data as an array
+	 *
+	 * If $keyword parameter is passed, values for that only will be returned.
+	 * This will always be in array form, even if there was no data. (ie an empty array)
+	 * This is to make it easy to loop over
+	 *
+	 * If $keyword parameter is null, all values will be returned in an array of arrays.
+	 *
+	 * Note all keywords are always in upper case.
+	 *
+	 * @return array
+	 */
+	public function getRaw($keyword = null)
+	{
+		if ($keyword) {
+			return isset($this->raw[strtoupper($keyword)]) ? $this->raw[strtoupper($keyword)] : array();
+		} else {
+			return $this->raw;
+		}
 	}
 
 

@@ -31,6 +31,10 @@ class LineTest  extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($events));
 		$event = $events[0];
 		$this->assertEquals($output, $event->getDescription());
+
+		$this->assertTrue(isset($event->getRaw()['DESCRIPTION']));
+		$this->assertEquals($output, $event->getRaw()['DESCRIPTION'][0]);
+		$this->assertEquals($output, $event->getRaw('DESCRIPTION')[0]);
 	}
 
 
