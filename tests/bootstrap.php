@@ -8,6 +8,8 @@
  * @author James Baster <james@jarofgreen.co.uk>
  */
 
+error_reporting( E_STRICT );
+
 
 require __DIR__ . '/../src/JMBTechnologyLimited/ICalDissect/ICalTimeZone.php';
 require __DIR__ . '/../src/JMBTechnologyLimited/ICalDissect/ICalEvent.php';
