@@ -37,6 +37,10 @@ class ICalEvent
 
 	protected $exdates = array();
 
+    protected $geoLat;
+
+    protected $geoLng;
+
 	protected $raw = array();
 
 	public function __construct(\DateTimeZone $timeZone = null) {
@@ -72,7 +76,14 @@ class ICalEvent
 			$this->ical_rrule = $rrule;
 		} else if ($keyword == "EXDATE") {
 			$this->exdates[] = new ICalExDate($value, $keywordProperties);
-		}
+		} else if ($keyword == "GEO") {
+            $bits = explode(";", $value);
+            if (count($bits) == 2) {
+                $this->geoLat = $bits[0];
+                $this->geoLng = $bits[1];
+            }
+        }
+
 		if (!isset($this->raw[strtoupper($keyword)]))  {
 			$this->raw[strtoupper($keyword)] = array();
 		}
@@ -220,6 +231,18 @@ class ICalEvent
 			return $this->raw;
 		}
 	}
+
+    public function hasGeo() {
+        return (boolean)($this->geoLat && $this->geoLng);
+    }
+
+    public function getGeoLat() {
+        return $this->geoLat;
+    }
+
+    public function getGeoLng() {
+        return $this->geoLng;
+    }
 
 
 
