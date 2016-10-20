@@ -45,7 +45,7 @@ class GeoTest  extends \PHPUnit_Framework_TestCase {
     /**
      * @dataProvider dataForTestNoGeo1
      */
-    function testNoGeo1 ($filename, $lat, $lng) {
+    function testNoGeo1 ($filename) {
         $parser = new ICalParser();
         $this->assertTrue($parser->parseFromFile(dirname(__FILE__)."/data/".$filename));
 
