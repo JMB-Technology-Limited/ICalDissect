@@ -65,9 +65,9 @@ class ICalEvent
 		} else if ($keyword == 'URL') {
 			$this->url = $value;
 		} else if ($keyword == 'DTSTART') {
-			$this->start = $this->parseDateTime($value, true);
+			$this->start = $this->parseDateTime($value, true, $keywordProperties);
 		} else if ($keyword == 'DTEND') {
-			$this->end = $this->parseDateTime($value, false);
+			$this->end = $this->parseDateTime($value, false, $keywordProperties);
 		} else if ($keyword == 'METHOD' && $value == 'CANCEL') {
 			$this->deleted = true;
 		} else if ($keyword == 'STATUS' && $value == 'CANCELLED') {
@@ -100,10 +100,10 @@ class ICalEvent
      * Based on http://code.google.com/p/ics-parser/, MIT License
      * Changed for Timezones.
     **/
-    protected function parseDateTime($value, $isStart) {
+    protected function parseDateTime($value, $isStart, $keywordProperties) {
         // We should be doing something like this - if it's not UTC it's a floating time and we should look at pre-set timezone or parameter timezone.
         // https://tools.ietf.org/html/rfc5545#section-3.3.5
-        // $isUTC = substr($value, -1) == 'Z';
+        $isUTC = substr($value, -1) == 'Z';
 
         $value = str_replace('Z', '', $value);
 		$pattern  = '/([0-9]{4})';   // 1: YYYY
@@ -130,6 +130,15 @@ class ICalEvent
         // if 32 bit integers are used.
 		
 		$out = new \DateTime('', $this->timeZoneUTC);
+        if (!$isUTC) {
+
+            // Is Timezone in Keyword Properties?
+            if (substr($keywordProperties, 0, 5) == 'TZID=') {
+                $timeZone = new \DateTimeZone(substr($keywordProperties, 5));
+                $out->setTimezone($timeZone);
+            }
+
+        }
 		$out->setDate((int)$date[1], (int)$date[2], (int)$date[3]);
 		if ($hasTimePart) {
 			$out->setTime((int)$date[4], (int)$date[5], (int)$date[6]);
@@ -138,6 +147,9 @@ class ICalEvent
 		} else if (!$isStart) {
 			$out->setTime(23,59,59);
 		}
+        if (!$isUTC) {
+            $out->setTimezone($this->timeZoneUTC);
+        }
 		return $out;
 	}
 			
