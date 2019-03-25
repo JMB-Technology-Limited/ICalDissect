@@ -17,7 +17,9 @@ class ICalParser
 	protected $timezone;
 	
 	protected $events = array();
-	
+    
+    protected $raw = array();
+
 	public function __construct() {
 		$this->timezone = new ICalTimeZone();
 	}
@@ -89,7 +91,12 @@ class ICalParser
 						$this->events[count($this->events)-1]->processLine($line['KEYWORD'],$line['VALUE'], $line['KEYWORDOPTIONS']);
 					} elseif ($currentlyIn == 'VTIMEZONE') {
 						$this->timezone->processLine($line['KEYWORD'],$line['VALUE'], $line['KEYWORDOPTIONS']);
-					}
+                    } elseif ($currentlyIn == 'VCALENDAR') {
+                        if (!isset($this->raw[strtoupper($line['KEYWORD'])]))  {
+                            $this->raw[strtoupper($line['KEYWORD'])] = array();
+                        }
+                        $this->raw[strtoupper($line['KEYWORD'])][] = $line['VALUE'];
+                    }
 				}
 			}
 			
@@ -113,6 +120,31 @@ class ICalParser
     {
 		return $this->events;
 	}
+
+    /**
+     *
+     * Returns raw line data for this calendar file, but only data that is not in another object.
+     *
+     * @parameter $keyword pass keyword you want, or null to get all data as an array
+     *
+     * If $keyword parameter is passed, values for that only will be returned.
+     * This will always be in array form, even if there was no data. (ie an empty array)
+     * This is to make it easy to loop over
+     *
+     * If $keyword parameter is null, all values will be returned in an array of arrays.
+     *
+     * Note all keywords are always in upper case.
+     *
+     * @return array
+     */
+    public function getRaw($keyword = null)
+    {
+        if ($keyword) {
+            return isset($this->raw[strtoupper($keyword)]) ? $this->raw[strtoupper($keyword)] : array();
+        } else {
+            return $this->raw;
+        }
+    }
 
 }
 
